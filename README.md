@@ -15,7 +15,7 @@ You need to make two files in the root of this directory:
     ]
     ```
 
-2) `.env` - this contains your slack webhook and the automation domain. it should look like
+2) `.env` - this contains your slack webhook (get one [here](https://api.slack.com/apps/ABL479KRQ/incoming-webhooks?)) and the automation domain. it should look like
     ```
         SLACK_WEBHOOK="your slack webhook url here"
         BASE_URL="your automation domain name here"
