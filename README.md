@@ -3,7 +3,11 @@ This is intended to help with daily automation reporting duties. As pipenv will 
 
 # Install
 ## Dependencies
-Use `pipenv` (get it [here](https://docs.pipenv.org/)) to install dependencies i.e. `$ pipenv install`
+1) [Python 3](https://www.python.org/downloads/)  
+    - in cmd, use `$ py -3` to switch to python 3 if you have python 2 installed
+2) [pipenv](https://docs.pipenv.org/install/#pragmatic-installation-of-pipenv)
+    - pay special attention to the fact that if you are on Windows, you must add `C:\Users\{USERNAME}\AppData\Roaming\Python{VERSION}\Scripts` to your path in order to access pipenv from the shell.
+3) install dependencies with pipenv i.e. `$ pipenv install`
 
 ## Environment variables
 You need to make two files in the root of this directory:

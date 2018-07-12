@@ -2,6 +2,7 @@ import requests
 import re
 import json
 from settings import SLACK_WEBHOOK as slack_webhook, BASE_URL as base_url
+from getpass import getuser
 
 def get_job_status(job_url):
     response = requests.get(job_url)
@@ -27,8 +28,11 @@ def create_report_message(full_project_name):
 
     code = 'PASSED' if '(no failures)' in status else 'UNSTABLE'
 
-    return '{} - {}: {} {}'.format(domain, suite_short_name, code, status)
-
+    if code == 'PASSED':
+        return '{} - {}'.format(suite_short_name, code)
+    else:
+        return '{} - {} {}'.format(suite_short_name, code, status)
+ 
 
 if __name__ == '__main__':
     with open('reports.json') as reports:
@@ -36,6 +40,9 @@ if __name__ == '__main__':
         lines = []
         for full_project_name in names:
             lines.append(create_report_message(full_project_name))
-
-        text = '```\n{}\n```'.format('\n'.join(lines))
+        username = getuser()
+        header = '{} - {}'.format(username, names[0][-2])
+        separator = '-----------------------------'
+        body = '\n'.join(lines)
+        text = '```\n{}\n{}\n{}\n```'.format(header, separator, body)
         message_user({'text': text})
