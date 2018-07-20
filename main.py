@@ -4,11 +4,15 @@ import json
 from settings import SLACK_WEBHOOK as slack_webhook, BASE_URL as base_url
 from getpass import getuser
 
-def get_job_status(job_url):
+def get_build_failures(job_url):
     response = requests.get(job_url)
     regex = '<a href=\"lastCompletedBuild\\/testReport\\/\">Latest Test Result<\\/a>([^<]+)<\\/td>' #Thanks, Mitch
-    status = re.search(regex, response.text).group(1)
-    return status
+    status = re.search(regex, response.text)
+    
+    if not status:
+        return "build failed"
+    
+    return status.group(1)
 
 
 def message_user(json):
@@ -21,18 +25,22 @@ def make_url_from_job_name(group, project, report, domain, suite):
 
 def create_report_message(full_project_name):
     url = make_url_from_job_name(*full_project_name)
-    status = get_job_status(url).strip()
-
     domain = full_project_name[-2]
     suite_short_name = full_project_name[-1].replace(domain, '').strip()
 
-    code = 'PASSED' if '(no failures)' in status else 'UNSTABLE'
+    number_of_failures = get_build_failures(url).strip()
+    code = translate_failures_to_code(number_of_failures)
 
-    if code == 'PASSED':
-        return '{} - {}'.format(suite_short_name, code)
+    return '{} - {}'.format(suite_short_name, code)
+    
+
+def translate_failures_to_code(number_of_failures):
+    if 'build failed' in number_of_failures:
+        return 'BUILD FAILURE'
+    elif '(no failures)' in number_of_failures:
+        return 'PASSED'
     else:
-        return '{} - {} {}'.format(suite_short_name, code, status)
- 
+        return number_of_failures
 
 if __name__ == '__main__':
     with open('reports.json') as reports:
