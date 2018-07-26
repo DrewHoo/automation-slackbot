@@ -26,7 +26,11 @@ def make_url_from_job_name(group, project, report, domain, suite):
 def create_report_message(full_project_name):
     url = make_url_from_job_name(*full_project_name)
     domain = full_project_name[-2]
-    suite_short_name = full_project_name[-1].replace(domain, '').strip()
+
+    if domain == 'Tearsheets': #uggggghhhhhhh
+        suite_short_name = full_project_name[-1].replace(domain[:-1], '').strip()
+    else:
+        suite_short_name = full_project_name[-1].replace(domain, '').strip()
 
     number_of_failures = get_build_failures(url).strip()
     code = translate_failures_to_code(number_of_failures)
@@ -46,8 +50,8 @@ if __name__ == '__main__':
     with open('reports.json') as reports:
         names = json.load(reports)
         lines = []
-        for full_project_name in names:
-            lines.append(create_report_message(full_project_name))
+        for full_suite_name in names:
+            lines.append(create_report_message(full_suite_name))
         username = getuser()
         header = '{} - {}'.format(username, names[0][-2])
         separator = '-----------------------------'

@@ -1,0 +1,15 @@
+[
+    ["Development", "Novo", "Automation", "SubmissionWorkflow", "Interviewing"],
+    ["Development", "Novo", "Automation", "SubmissionWorkflow", "Placements"],
+    ["Development", "Novo", "Automation", "SubmissionWorkflow", "Rejected"],
+    ["Development", "Novo", "Automation", "SubmissionWorkflow", "WebResponses"],
+    ["Development", "Novo", "Automation", "SubmissionWorkflow", "ClientSubmission"],
+    ["Development", "Novo", "Automation", "SubmissionWorkflow", "Confirmed"],
+    ["Development", "Novo", "Automation", "SubmissionWorkflow", "Disabled"],
+    ["Development", "Novo", "Automation", "SubmissionWorkflow", "InternalSubmission"],
+    ["Development", "Novo", "Automation", "Tearsheets", "TearsheetRowActionsOne"],
+    ["Development", "Novo", "Automation", "Tearsheets", "TearsheetElements"],
+    ["Development", "Novo", "Automation", "Tearsheets", "TearsheetRowActionsTwo"],
+    ["Development", "Novo", "Automation", "Tearsheets", "TearsheetSelectedActionsOne"],
+    ["Development", "Novo", "Automation", "Tearsheets", "TearsheetSelectedActionsTwo"]
+]
