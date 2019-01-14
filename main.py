@@ -46,15 +46,31 @@ def translate_failures_to_code(number_of_failures):
     else:
         return number_of_failures
 
-if __name__ == '__main__':
-    with open('reports.json') as reports:
-        names = json.load(reports)
-        lines = []
-        for full_suite_name in names:
+
+def make_report_for_suite(suite_name, test_suites):
+    lines = []
+    for full_suite_name in test_suites:
+        if full_suite_name[-2] == suite_name:
             lines.append(create_report_message(full_suite_name))
-        username = getuser()
-        header = '{} - {}'.format(username, names[0][-2])
-        separator = '-----------------------------'
-        body = '\n'.join(lines)
-        text = '```\n{}\n{}\n{}\n```'.format(header, separator, body)
+    username = getuser()
+    header = '{} - {}'.format(username, suite_name)
+    separator = '-----------------------------'
+    body = '\n'.join(lines)
+    return '\n{}\n{}\n{}\n'.format(header, separator, body)
+
+
+def get_unique_test_suite_names(test_suites):
+    unique_names = {}
+    for full_name in test_suites:
+        unique_names[full_name[-2]] = 1
+    return unique_names.keys()
+
+
+if __name__ == '__main__':
+    with open('reports.json') as test_suites_file:
+        test_suites = json.load(test_suites_file)
+        reports = []
+        for suite_name in get_unique_test_suite_names(test_suites):
+            reports.append(make_report_for_suite(suite_name, test_suites))
+        text = '```{}```'.format('\n'.join(reports))
         message_user({'text': text})
