@@ -35,7 +35,7 @@ def create_report_message(full_project_name):
     number_of_failures = get_build_failures(url).strip()
     code = translate_failures_to_code(number_of_failures)
 
-    return '{} - {}'.format(suite_short_name, code)
+    return '{} - {}\n{}'.format(suite_short_name, code, url)
     
 
 def translate_failures_to_code(number_of_failures):
@@ -72,5 +72,8 @@ if __name__ == '__main__':
         reports = []
         for suite_name in get_unique_test_suite_names(test_suites):
             reports.append(make_report_for_suite(suite_name, test_suites))
-        text = '```{}```'.format('\n'.join(reports))
+        text = '\n'.join(reports)
+        print(text)
+        summary = input('Add a summary: ')
+        text = '```{}\nSummary: {}```'.format(text, summary)
         message_user({'text': text})
